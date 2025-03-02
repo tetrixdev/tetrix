@@ -1,0 +1,30 @@
+{
+  "name": "tetrix/tetrix",
+  "description": "Tetrix provides a modern, opinionated set of full-stack Laravel components that help developers build applications quickly and efficiently.",
+  "type": "library",
+  "license": "BUSL-1.1",
+  "authors": [
+    {
+      "name": "Jasper Bauer",
+      "email": "jasper@tetrix.dev"
+    }
+  ],
+  "require": {
+    "laravel/framework": "^11.0|^12.0"
+  },
+  "require-dev": {},
+  "autoload": {
+    "psr-4": {
+      "Tetrix\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Tetrix\\TetrixServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
