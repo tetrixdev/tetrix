@@ -6,13 +6,14 @@
   "authors": [
     {
       "name": "Jasper Bauer",
-      "email": "jasper@tetrix.dev"
+      "email": "jasper@tetrix.dev",
+      "homepage": "https://tetrix.dev",
+      "role": "Developer"
     }
   ],
   "require": {
     "laravel/framework": "^11.0|^12.0"
   },
-  "require-dev": {},
   "autoload": {
     "psr-4": {
       "Tetrix\\": "src/"
