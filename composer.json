@@ -12,9 +12,7 @@
     }
   ],
   "require": {
-    "laravel/framework": "^11.0|^12.0"
-  },
-  "require-dev": {
+    "laravel/framework": "^11.0|^12.0",
     "composer/semver": "^3.4"
   },
   "autoload": {
