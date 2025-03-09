@@ -92,6 +92,7 @@ class InstallDependenciesThroughNpm extends Command
             $this->npmInstall();
             $this->updateAppJs();
             $this->updateAppCss();
+            return 0;
         }
 
         // Show user what will be added
@@ -129,13 +130,6 @@ class InstallDependenciesThroughNpm extends Command
         // Find last import statement in app.js
         $appJsPath = base_path('resources/js/app.js');
         $appJsContent = file_get_contents($appJsPath);
-        $lastImportStatement = strrpos($appJsContent, 'import ');
-
-        // Check if import statement was found
-        if ($lastImportStatement === false) {
-            $this->error("Error: Could not find the last import statement in app.js.");
-            return 1;
-        }
 
         // Check if tetrix.js is already imported
         if (strpos($appJsContent, 'tetrix.js') !== false) {
@@ -143,9 +137,21 @@ class InstallDependenciesThroughNpm extends Command
             return 0;
         }
 
+        // get all import statements
+        preg_match('/import .+;/m', $appJsContent, $matches);
+
+       // Check if import statement was found
+        if (empty($matches)) {
+            $this->error("Error: Could not find any import statements in app.js.");
+            return 1;
+        }
+
+        // get the last import statement
+        $lastImportStatement = end($matches);
+
         // Add import statement for js/tetrix.js, have to use the vendor path
-        $newImportStatement = "import './../../vendor/tetrix/tetrix/src/Resources/js/tetrix.js';\n";
-        $appJsContent = substr_replace($appJsContent, $newImportStatement, $lastImportStatement, 0);
+        $newImportStatement = "\nimport './../../vendor/tetrix/tetrix/src/Resources/js/tetrix.js';";
+        $appJsContent = str_replace($lastImportStatement, $lastImportStatement . $newImportStatement, $appJsContent);
 
         // Write changes to app.js
         file_put_contents($appJsPath, $appJsContent);
@@ -159,13 +165,6 @@ class InstallDependenciesThroughNpm extends Command
         // Find last import statement in app.css
         $appCssPath = base_path('resources/css/app.css');
         $appCssContent = file_get_contents($appCssPath);
-        $lastImportStatement = strrpos($appCssContent, '@import ');
-
-        // Check if import statement was found
-        if ($lastImportStatement === false) {
-            $this->error("Error: Could not find the last import statement in app.css.");
-            return 1;
-        }
 
         // Check if tetrix.css is already imported
         if (strpos($appCssContent, 'tetrix.css') !== false) {
@@ -173,9 +172,21 @@ class InstallDependenciesThroughNpm extends Command
             return 0;
         }
 
+        // get all import statements
+        preg_match('/@import .+;/m', $appCssContent, $matches);
+
+        // Check if import statement was found
+        if (empty($matches)) {
+            $this->error("Error: Could not find any import statements in app.css.");
+            return 1;
+        }
+
+        // get the last import statement
+        $lastImportStatement = end($matches);
+
         // Add import statement for css/tetrix.css, have to use the vendor path
-        $newImportStatement = "@import './../../vendor/tetrix/tetrix/src/Resources/css/tetrix.css';\n";
-        $appCssContent = substr_replace($appCssContent, $newImportStatement, $lastImportStatement, 0);
+        $newImportStatement = "\n@import url('./../../vendor/tetrix/tetrix/src/Resources/css/tetrix.css');";
+        $appCssContent = str_replace($lastImportStatement, $lastImportStatement . $newImportStatement, $appCssContent);
 
         // Write changes to app.css
         file_put_contents($appCssPath, $appCssContent);
