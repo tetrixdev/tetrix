@@ -111,7 +111,13 @@ class InstallDependenciesThroughNpm extends Command
 
         // Run npm install
         $this->info("We will try to run `npm install`, if this fails then you should do this manually. Running npm install...");
-        shell_exec('npm install');
+        $result = shell_exec('npm install');
+
+        // Check if npm install was successful
+        if (strpos($result, 'added') === false) {
+            $this->error("Error: npm install failed. Please run `npm install` manually.");
+            return 1;
+        }
 
         $this->info("Dependencies installed successfully.");
         return 0;
