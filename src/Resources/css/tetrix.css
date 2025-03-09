@@ -1,0 +1,4 @@
+/* Adding required CSS for x-cloak to work as described by the documentation: https://alpinejs.dev/directives/cloak */
+[x-cloak] {
+    display: none !important;
+}
