@@ -207,7 +207,13 @@ class InstallDependenciesThroughNpm extends Command
             return 1;
         }
 
-        $this->info("Dependencies installed successfully.");
+        // Check if npm install was successful
+        if (strpos($result, 'added') === true) {
+            $this->info("Dependencies installed successfully.");
+            return 0;
+        }
+
+        $this->info("Dependencies are already up to date.");
         return 0;
     }
 

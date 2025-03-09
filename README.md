@@ -2,13 +2,15 @@
 
 ## Installation
 
-Installing Tetrix on a fresh Laravel project is super simple. First require this package:
+To start using Tetrix in your Laravel project, first require this package:
 
 ```bash
 composer require tetrix/tetrix
 ```
 
-#### Automatic setup of Tetrix NPM packages (recommended)
+Below you can find two ways to install the necessary npm packages and include the Tetrix CSS and JS files in your project.
+
+### Automatic setup of Tetrix NPM packages (recommended)
 
 Tetrix will automatically install the necessary npm packages and run the necessary commands to get you up and running. You can run the following command:
 
@@ -16,11 +18,11 @@ Tetrix will automatically install the necessary npm packages and run the necessa
 php artisan tetrix:install
 ```
 
-#### Manual Installation
+### Manual Installation
 
 If you prefer to install the npm packages manually, we require the following packages:
 
-Package.json (devDependencies):
+`Package.json` (devDependencies):
 - `"alpinejs": "^3.0"`
 - `"htmx.org": "^2.0"`
 - `"tailwindcss": "^4.0"`
