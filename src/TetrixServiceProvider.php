@@ -3,6 +3,7 @@
 namespace Tetrix;
 
 use Illuminate\Support\ServiceProvider;
+use Tetrix\Commands\InstallDependenciesThroughNpm;
 
 class TetrixServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,10 @@ class TetrixServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register any bindings or services here
+        // Register commands
+        $this->commands([
+            InstallDependenciesThroughNpm::class,
+        ]);
     }
 
     /**
