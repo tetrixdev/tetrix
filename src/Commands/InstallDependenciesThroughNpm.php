@@ -185,7 +185,7 @@ class InstallDependenciesThroughNpm extends Command
         $lastImportStatement = end($matches);
 
         // Add import statement for css/tetrix.css, have to use the vendor path
-        $newImportStatement = "\n@import url('./../../vendor/tetrix/tetrix/src/Resources/css/tetrix.css');";
+        $newImportStatement = "\n@import './../../vendor/tetrix/tetrix/src/Resources/css/tetrix.css';";
         $appCssContent = str_replace($lastImportStatement, $lastImportStatement . $newImportStatement, $appCssContent);
 
         // Write changes to app.css
@@ -202,7 +202,7 @@ class InstallDependenciesThroughNpm extends Command
         $result = shell_exec('npm install');
 
         // Check if npm install was successful
-        if (strpos($result, 'added') === false || strpos($result, 'up to date') === false) {
+        if (strpos($result, 'added') === false && strpos($result, 'up to date') === false) {
             $this->error("Error: npm install failed. Please run `npm install` manually.");
             return 1;
         }
