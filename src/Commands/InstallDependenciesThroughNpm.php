@@ -89,7 +89,7 @@ class InstallDependenciesThroughNpm extends Command
         // If no changes, exit
         if (empty($missingDependencies)) {
             $this->info('All required dependencies are already present.');
-            return 0;
+            return $this->npmInstall();
         }
 
         // Show user what will be added
@@ -117,6 +117,11 @@ class InstallDependenciesThroughNpm extends Command
 
         $this->info("Dependencies (package.json) updated successfully.");
 
+        return $this->npmInstall();
+    }
+
+    private function npmInstall()
+    {
         // Run npm install
         $this->info("We will try to run `npm install`, if this fails then you should do this manually. Running npm install...");
         $result = shell_exec('npm install');
