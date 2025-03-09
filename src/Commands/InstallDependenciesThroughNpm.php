@@ -202,7 +202,7 @@ class InstallDependenciesThroughNpm extends Command
         $result = shell_exec('npm install');
 
         // Check if npm install was successful
-        if (strpos($result, 'added') === false) {
+        if (strpos($result, 'added') === false || strpos($result, 'up to date') === false) {
             $this->error("Error: npm install failed. Please run `npm install` manually.");
             return 1;
         }
