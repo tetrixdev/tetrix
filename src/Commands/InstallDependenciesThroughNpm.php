@@ -104,6 +104,14 @@ class InstallDependenciesThroughNpm extends Command
             return 0;
         }
 
+        // Remove empty devDependencies or dependencies
+        if(empty($packageJson['devDependencies'])) {
+            unset($packageJson['devDependencies']);
+        }
+        if(empty($packageJson['dependencies'])) {
+            unset($packageJson['dependencies']);
+        }
+
         // Write changes to package.json
         file_put_contents($packageJsonPath, json_encode($packageJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
