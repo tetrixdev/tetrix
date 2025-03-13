@@ -3,12 +3,12 @@
 namespace Tetrix;
 
 use Illuminate\Support\ServiceProvider;
-use Tetrix\Commands\InstallDependenciesThroughNpm;
 
 class TetrixServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     * Put things here when you don't need any other services to be available
      *
      * @return void
      */
@@ -16,17 +16,18 @@ class TetrixServiceProvider extends ServiceProvider
     {
         // Register commands
         $this->commands([
-            InstallDependenciesThroughNpm::class,
+            \Tetrix\Commands\InstallDependenciesThroughNpm::class,
         ]);
     }
 
     /**
      * Bootstrap any application services.
+     * Put things here when you need other services to be available
      *
      * @return void
      */
     public function boot()
     {
-        // Bootstrap any application services here
+        $this->app['router']->pushMiddlewareToGroup('web', \Tetrix\Middlewares\Tetrix::class);
     }
 }
