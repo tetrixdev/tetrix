@@ -3,6 +3,8 @@ export function setupTxTargets() {
     function replaceTxTargets() {
         document.querySelectorAll('[tx-targets]').forEach((element) => {
             let targets = element.getAttribute('tx-targets');
+
+            // Creating/Updating the hx-headers attribute
             let headers = element.getAttribute('hx-headers');
             if (headers) {
                 headers = JSON.parse(headers);
@@ -11,6 +13,12 @@ export function setupTxTargets() {
                 headers = { 'TX-Targets': targets };
             }
             element.setAttribute('hx-headers', JSON.stringify(headers));
+
+            // Adding hx-get attribute if hx-get,hx-post,hx-put,hx-delete do not exist, no value = current page
+            if (!element.hasAttribute('hx-get') && !element.hasAttribute('hx-post') && !element.hasAttribute('hx-put') && !element.hasAttribute('hx-delete')) {
+                element.setAttribute('hx-get', '');
+            }
+
             element.removeAttribute('tx-targets');
         });
     }
