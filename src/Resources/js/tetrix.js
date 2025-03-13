@@ -1,10 +1,7 @@
-import Alpine from 'alpinejs';
-import htmx from 'htmx.org';
+import { initAlpine } from './alpineSetup.js';
+import { initHtmx } from './htmxSetup.js';
+import { setupTxTargets } from './tetrixTargets.js';
 
-Alpine.start()
-window.Alpine = Alpine
-
-// Prevent nested out-of-body swaps
-// If an element with hx-swap-oob is nested within another element retrieved by htmx, it will not work without this configuration.
-htmx.config.allowNestedOobSwaps = false;
-window.htmx = htmx;
+initAlpine();
+initHtmx();
+setupTxTargets();
