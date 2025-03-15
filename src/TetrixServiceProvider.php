@@ -2,6 +2,7 @@
 
 namespace Tetrix;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class TetrixServiceProvider extends ServiceProvider
@@ -18,6 +19,12 @@ class TetrixServiceProvider extends ServiceProvider
         $this->commands([
             \Tetrix\Commands\InstallDependenciesThroughNpm::class,
         ]);
+
+        // Load views
+        $this->loadViewsFrom('/Components/Views', 'tx');
+
+        // Register the classes
+        Blade::componentNamespace('Tetrix\\Components\\Classes', 'tx');
     }
 
     /**
