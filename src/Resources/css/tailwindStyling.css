@@ -1,5 +1,7 @@
+@source '../../**/*.blade.php';
+
 @theme {
-    --color-primary: var(--color-blue);
+    --color-primary: #0000FF;
     --color-secondary: var(--color-gray);
     --color-success: var(--color-green);
     --color-warning: var(--color-yellow);
