@@ -10,12 +10,12 @@
                     transition-colors duration-200 ease-in-out relative flex ';
 
     // Color Classes
-    $colorClasses = 'text-primary-50 bg-primary-500 hover:bg-primary-600
-                     focus-visible:ring-primary-500/75
-                     disabled:text-primary-300 disabled:bg-primary-600 disabled:hover:bg-primary-600
-                     dark:bg-primary-600 dark:hover:bg-primary-700
-                     dark:focus-visible:ring-primary-600/75
-                     dark:disabled:text-primary-400 dark:disabled:bg-primary-700 dark:disabled:hover:bg-primary-700';
+    $colorClasses = 'text-tx-primary-50 bg-tx-primary-500 hover:bg-tx-primary-600
+                     focus-visible:ring-tx-primary-500/75
+                     disabled:text-tx-primary-300 disabled:bg-tx-primary-600 disabled:hover:bg-tx-primary-600
+                     dark:bg-tx-primary-600 dark:hover:bg-tx-primary-700
+                     dark:focus-visible:ring-tx-primary-600/75
+                     dark:disabled:text-tx-primary-400 dark:disabled:bg-tx-primary-700 dark:disabled:hover:bg-tx-primary-700';
 
     // User Classes
     $customClasses = $attributes->get('class') ?? '';
@@ -26,12 +26,12 @@
 
 //    // Variant-specific styles
 //    $variantClasses = match ($variant) {
-//        'primary' => 'text-primary-50 bg-primary-500 hover:bg-primary-600
-//                      focus-visible:ring-primary-500/75
-//                      disabled:text-primary-300 disabled:bg-primary-600 disabled:hover:bg-primary-600
-//                      dark:bg-primary-600 dark:hover:bg-primary-700
-//                      dark:focus-visible:ring-primary-600/75
-//                      dark:disabled:text-primary-400 dark:disabled:bg-primary-700 dark:disabled:hover:bg-primary-700',
+//        'tx-primary' => 'text-tx-primary-50 bg-tx-primary-500 hover:bg-tx-primary-600
+//                      focus-visible:ring-tx-primary-500/75
+//                      disabled:text-tx-primary-300 disabled:bg-tx-primary-600 disabled:hover:bg-tx-primary-600
+//                      dark:bg-tx-primary-600 dark:hover:bg-tx-primary-700
+//                      dark:focus-visible:ring-tx-primary-600/75
+//                      dark:disabled:text-tx-primary-400 dark:disabled:bg-tx-primary-700 dark:disabled:hover:bg-tx-primary-700',
 //        'secondary' => 'text-gray-800 bg-gray-200 dark:text-gray-200 dark:bg-gray-700 focus:ring-gray-500',
 //        'success'   => 'text-white bg-green-500 dark:bg-green-600 focus:ring-green-500',
 //        'danger'    => 'text-white bg-red-500 dark:bg-red-600 focus:ring-red-500',
