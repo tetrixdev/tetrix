@@ -11,7 +11,7 @@ class Button extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string|null $variant = 'primary', public string $type = 'button')
+    public function __construct(public string $type = 'button')
     {
         //
     }

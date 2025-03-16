@@ -1,15 +1,28 @@
 @source '../../**/*.blade.php';
 
+/* Set colors used for default background and texts */
 @theme {
-    --color-primary-50: oklch(0.97 0.014 254.604);
-    --color-primary-100: oklch(0.932 0.032 255.585);
-    --color-primary-200: oklch(0.882 0.059 254.128);
-    --color-primary-300: oklch(0.809 0.105 251.813);
-    --color-primary-400: oklch(0.707 0.165 254.624);
-    --color-primary-500: oklch(0.623 0.214 259.815);
-    --color-primary-600: oklch(0.546 0.245 262.881);
-    --color-primary-700: oklch(0.488 0.243 264.376);
-    --color-primary-800: oklch(0.424 0.199 265.638);
-    --color-primary-900: oklch(0.379 0.146 265.522);
-    --color-primary-950: oklch(0.282 0.091 267.935);
+    --color-tx-bg-body: '#FDFDFC';
+    --color-tx-bg-body-dark: '#0a0a0a';
+    --color-tx-txt: '1b1b18';
+    --color-tx-txt-dark: 'EDEDEC';
+    --color-tx-txt-sub: '706f6c';
+    --color-tx-txt-sub-dark: 'A1A09A';
+    --color-tx-bg: '#FFFFFF';
+    --color-tx-bg-dark: '#161615';
+}
+
+/* Set primary color */
+@theme {
+    --color-tx-primary-50: oklch(0.97 0.014 254.604);
+    --color-tx-primary-100: oklch(0.932 0.032 255.585);
+    --color-tx-primary-200: oklch(0.882 0.059 254.128);
+    --color-tx-primary-300: oklch(0.809 0.105 251.813);
+    --color-tx-primary-400: oklch(0.707 0.165 254.624);
+    --color-tx-primary-500: oklch(0.623 0.214 259.815);
+    --color-tx-primary-600: oklch(0.546 0.245 262.881);
+    --color-tx-primary-700: oklch(0.488 0.243 264.376);
+    --color-tx-primary-800: oklch(0.424 0.199 265.638);
+    --color-tx-primary-900: oklch(0.379 0.146 265.522);
+    --color-tx-primary-950: oklch(0.282 0.091 267.935);
 }
