@@ -2,14 +2,14 @@
 
 /* Set colors used for default background and texts */
 @theme {
-    --color-tx-bg-body: '#FDFDFC';
-    --color-tx-bg-body-dark: '#0a0a0a';
-    --color-tx-txt: '1b1b18';
-    --color-tx-txt-dark: 'EDEDEC';
-    --color-tx-txt-sub: '706f6c';
-    --color-tx-txt-sub-dark: 'A1A09A';
-    --color-tx-bg: '#FFFFFF';
-    --color-tx-bg-dark: '#161615';
+    --color-tx-bg-body: #FDFDFC;
+    --color-tx-bg-body-dark: #0A0A0A;
+    --color-tx-txt: #1B1B18;
+    --color-tx-txt-dark: #EDEDEC;
+    --color-tx-txt-sub: #706F6C;
+    --color-tx-txt-sub-dark: #A1A09A;
+    --color-tx-bg: #FFFFFF;
+    --color-tx-bg-dark: #161615;
 }
 
 /* Set primary color */
