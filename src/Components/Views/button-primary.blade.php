@@ -12,10 +12,10 @@
                     transition-colors duration-200 ease-in-out relative flex ';
 
     // Color Classes
-    $colorClasses = 'text-gray-50 bg-gray-500 hover:bg-gray-600
-                     disabled:text-gray-300 disabled:bg-gray-600 disabled:hover:bg-gray-600
-                     dark:bg-gray-600 dark:hover:bg-gray-700
-                     dark:disabled:text-gray-400 dark:disabled:bg-gray-700 dark:disabled:hover:bg-gray-700';
+    $colorClasses = 'text-tx-primary-50 bg-tx-primary-500 hover:bg-tx-primary-600
+                     disabled:text-tx-primary-300 disabled:bg-tx-primary-600 disabled:hover:bg-tx-primary-600
+                     dark:bg-tx-primary-600 dark:hover:bg-tx-primary-700
+                     dark:disabled:text-tx-primary-400 dark:disabled:bg-tx-primary-700 dark:disabled:hover:bg-tx-primary-700';
 
     // User Classes
     $customClasses = $attributes->get('class') ?? '';
