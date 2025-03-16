@@ -2,20 +2,20 @@
     $useLink = $attributes->has('href');
 
     // Base classes
+    // We've removed focus:outline-none and focus:ring-offset-1 here as they interfere with ColorClasses
     $baseClasses = 'p-3 pt-1 pb-1
                     rounded-sm cursor-pointer
-                    disabled:cursor-not-allowed focus:outline-none
-                    focus:ring-2 focus:ring-offset-1
+                    disabled:cursor-not-allowed
+                    focus:ring-2
                     focus:ring-offset-tx-bg focus:ring-tx-txt
                     dark:focus:ring-offset-tx-bg-dark dark:focus:ring-tx-txt-dark
                     disabled:opacity-50
                     transition-colors duration-200 ease-in-out relative flex ';
 
     // Color Classes
-    $colorClasses = 'text-gray-50 bg-gray-500 hover:bg-gray-600
-                     disabled:text-gray-300 disabled:bg-gray-600 disabled:hover:bg-gray-600
-                     dark:bg-gray-600 dark:hover:bg-gray-700
-                     dark:disabled:text-gray-400 dark:disabled:bg-gray-700 dark:disabled:hover:bg-gray-700';
+    $colorClasses = 'outline-1 shadow-inner focus:ring-offset-2
+                     outline-tx-bg-dark
+                     dark:outline-tx-bg ';
 
     // User Classes
     $customClasses = $attributes->get('class') ?? '';
