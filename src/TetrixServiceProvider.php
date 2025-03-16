@@ -23,6 +23,9 @@ class TetrixServiceProvider extends ServiceProvider
         // Load Component views and register the classes
         $this->loadViewsFrom(__DIR__.'/Components/Views', 'tx');
         Blade::componentNamespace('Tetrix\\Components\\Classes', 'tx');
+
+        // Load general views
+        $this->loadViewsFrom(__DIR__.'/Views', 'tx');
     }
 
     /**
