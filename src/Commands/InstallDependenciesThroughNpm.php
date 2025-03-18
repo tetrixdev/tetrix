@@ -15,7 +15,8 @@ class InstallDependenciesThroughNpm extends Command
         $dependencies = [
             'alpinejs' => '^3.0', // 'https://registry.npmjs.org/alpinejs/latest'
             'tailwindcss' => '^4.0', // 'https://registry.npmjs.org/tailwindcss/latest'
-            'htmx.org' => '^2.0' // 'https://registry.npmjs.org/htmx.org/latest'
+            'htmx.org' => '^2.0', // 'https://registry.npmjs.org/htmx.org/latest'
+            "@fortawesome/fontawesome-free" => "^6.7" // 'https://registry.npmjs.org/@fortawesome/fontawesome-free/latest'
         ];
 
         $packageJsonPath = base_path('package.json');
