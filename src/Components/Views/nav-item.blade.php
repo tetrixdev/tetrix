@@ -17,8 +17,8 @@ if ($body !== null) {
     }
 }
 
+// This might look odd, but otherwise vite will not compile the class correctly (classes need to be mentioned in full)
 $columnClass = '';
-
 switch($columnCount) {
     case 1:
         $columnClass = 'grid-cols-1';
@@ -48,19 +48,34 @@ switch($columnCount) {
 
 ?>
 
-<div @isset($dropdown) x-data="{ open: false }" @click="open = !open" x-ref="down" @endisset class="flex-none flex flex-row justify-center items-center gap-2 relative cursor-pointer">
-    {{ $slot }}
+<div @isset($dropdown)
+     x-data="{ open: false }"
+     @endisset
+     class="relative">
+    <div @isset($dropdown)
+         @click="open = !open"
+         x-ref="navitem"
+         :class="{'bg-tx-general-200 dark:bg-tx-general-700': open }"
+         @endisset
+         class="h-[47px] px-3
+                hover:bg-tx-general-200 dark:hover:bg-tx-general-700
+                cursor-pointer select-none
+                flex-none flex flex-row justify-center items-center gap-2">
+        {{ $slot }}
+    </div>
     @isset($dropdown)
         <div
             x-show="open"
             x-cloak
-            x-anchor.bottom-start="$refs.down"
+            x-anchor.bottom-start.offset.8="$refs.navitem"
             @click.outside="open = false"
-            class="absolute top-full right-0 mt-2 w-max mr-8
-                               bg-tx-general-50 dark:bg-tx-general-800 border
-                               border-tx-general-200 dark:border-tx-general-700
-                               rounded shadow-md
-                               grid {{ $columnClass }}">
+            class="absolute
+                   w-max
+                   bg-tx-general-50 dark:bg-tx-general-800 border
+                   rounded border-tx-general-300 dark:border-tx-general-700
+                   shadow-md
+                   z-10
+                   grid {{ $columnClass }}">
             {{ $dropdown }}
         </div>
     @endisset

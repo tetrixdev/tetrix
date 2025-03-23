@@ -19,15 +19,35 @@
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
-            @php trigger_error('Tetrix is currently expecting a vite setup, you can extend the lay-out and include a `scripts` section if needed') @endphp
+            @php trigger_error('Tetrix is currently expecting a vite setup, you can extend the lay-out and include a `scripts` section if you\'re not using vite') @endphp
         @endif
     @show
 </head>
 @section('tx-body')
-    <body class="bg-tx-bg-body dark:bg-tx-bg-body-dark text-tx-txt dark:text-tx-txt-dark min-h-screen flex flex-col items-center">
-    @yield('tx-header')
-    @yield('tx-main')
-    @yield('tx-footer')
+    <body class="h-dvh
+                 text-tx-general-700 dark:text-tx-general-300
+                 bg-tx-general-100 dark:bg-tx-general-900
+                 flex flex-col items-center">
+    @hasSection('tx-header')
+        <div class="flex-none
+                    w-full
+                    flex flex-col items-center">
+            @yield('tx-header')
+        </div>
+    @endif
+    <div class="flex-1
+                w-full
+                flex flex-col items-center
+                overflow-y-auto">
+        @yield('tx-main')
+    </div>
+    @hasSection('tx-footer')
+        <div class="flex-none
+                    w-full
+                    flex flex-col items-center">
+            @yield('tx-footer')
+        </div>
+    @endif
     </body>
 @show
 </html>

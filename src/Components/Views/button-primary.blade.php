@@ -14,7 +14,7 @@
     // Color Classes
     $colorClasses = 'text-tx-primary-50 bg-tx-primary-500 hover:bg-tx-primary-600
                      disabled:text-tx-primary-300 disabled:bg-tx-primary-600 disabled:hover:bg-tx-primary-600
-                     dark:bg-tx-primary-600 dark:hover:bg-tx-primary-700
+                     dark:bg-tx-primary-700 dark:hover:bg-tx-primary-800
                      dark:disabled:text-tx-primary-400 dark:disabled:bg-tx-primary-700 dark:disabled:hover:bg-tx-primary-700';
 
     // User Classes
