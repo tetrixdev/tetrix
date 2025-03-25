@@ -55,10 +55,10 @@ switch($columnCount) {
     <div @isset($dropdown)
          @click="open = !open"
          x-ref="navitem"
-         :class="{'bg-tx-general-200 dark:bg-tx-general-700': open }"
+         :class="{'bg-tx-general-200 dark:bg-tx-general-800': open }"
          @endisset
          class="h-[47px] px-3
-                hover:bg-tx-general-200 dark:hover:bg-tx-general-700
+                hover:bg-tx-general-200 dark:hover:bg-tx-general-800
                 cursor-pointer select-none
                 flex-none flex flex-row justify-center items-center gap-2">
         {{ $slot }}
@@ -71,8 +71,8 @@ switch($columnCount) {
             @click.outside="open = false"
             class="absolute
                    w-max
-                   bg-tx-general-50 dark:bg-tx-general-800 border
-                   rounded border-tx-general-300 dark:border-tx-general-700
+                   bg-tx-general-50 dark:bg-tx-general-900 border
+                   rounded border-tx-general-300 dark:border-tx-general-800
                    shadow-md
                    z-10
                    grid {{ $columnClass }}">
