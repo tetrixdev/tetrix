@@ -1,5 +1,5 @@
 <header class=" w-full h-12
-                bg-tx-general-50 dark:bg-tx-general-900
+                bg-tx-general-0 dark:bg-tx-general-900
                 border-b-[1px] border-b-tx-general-300 dark:border-b-tx-general-800
                 flex flex-row items-center">
     @isset($left)

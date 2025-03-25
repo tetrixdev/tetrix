@@ -26,7 +26,7 @@
 @section('tx-body')
     <body class="h-dvh
                  text-base text-tx-general-800 dark:text-tx-general-300
-                 bg-tx-general-100 dark:bg-tx-general-950
+                 bg-tx-general-50 dark:bg-tx-general-950
                  flex flex-col items-center">
     @hasSection('tx-header')
         <div class="flex-none
