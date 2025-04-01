@@ -1,8 +1,9 @@
-<a class="block
+<a  @click="open = false; $nextTick(() => navOpen = false)"
+    class="block
           px-6 py-2
           text-sm
-          hover:bg-tx-general-200 dark:hover:bg-tx-general-700
-          select-none
+          hover:bg-tx-general-150 dark:hover:bg-tx-general-800
+          cursor-pointer select-none
           flex flex-row items-center gap-2">
     {{ $slot }}
 </a>
