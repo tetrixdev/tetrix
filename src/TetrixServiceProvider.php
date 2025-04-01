@@ -20,6 +20,9 @@ class TetrixServiceProvider extends ServiceProvider
             \Tetrix\Commands\InstallDependenciesThroughNpm::class,
         ]);
 
+        // Merge package config
+        $this->mergeConfigFrom(__DIR__.'/Config/tetrix.php', 'tetrix');
+
         // Load Component views and register the classes
         $this->loadViewsFrom(__DIR__.'/Components/Views', 'tx');
         Blade::componentNamespace('Tetrix\\Components\\Classes', 'tx');
@@ -36,6 +39,12 @@ class TetrixServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Publish config file
+        $this->publishes([
+            __DIR__.'/Config/tetrix.php' => config_path('tetrix.php'),
+        ], 'tetrix-config');
+
+        // Register middleware
         $this->app['router']->pushMiddlewareToGroup('web', \Tetrix\Middlewares\Tetrix::class);
     }
 }

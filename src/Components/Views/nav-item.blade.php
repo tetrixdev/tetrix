@@ -46,37 +46,78 @@ switch($columnCount) {
         break;
 }
 
+if(isset($dropdown)) {
+    $rawDropdown = $dropdown;
+
+    // Remove outer x-tx::sub-nav-column
+    $flattenedHtml = preg_replace([
+        '/<x-tx::sub-nav-column[^>]*>/i',  // opening tag with optional attributes
+        '/<\/x-tx::sub-nav-column>/i'      // closing tag
+    ], '', $rawDropdown);
+}
+
+
 ?>
 
 <div @isset($dropdown)
-     x-data="{ open: false }"
+         x-data="{ open: false }"
+     @else
+         @click="navOpen = false"
      @endisset
-     class="relative">
+     class="relative w-full {{ config('tetrix.nav.breakpoint') }}:w-auto">
     <div @isset($dropdown)
-         @click="open = !open"
+             @click="open = !open"
          x-ref="navitem"
          :class="{'bg-tx-general-150 dark:bg-tx-general-800': open }"
          @endisset
          class="h-[47px] px-3
+                w-full {{ config('tetrix.nav.breakpoint') }}:w-auto
                 hover:bg-tx-general-150 dark:hover:bg-tx-general-800
                 cursor-pointer select-none
-                flex-none flex flex-row justify-center items-center gap-2">
+                flex-none flex flex-row {{ config('tetrix.nav.breakpoint') }}:justify-center justify-start items-center gap-2">
         {{ $slot }}
     </div>
     @isset($dropdown)
-        <div
-            x-show="open"
-            x-cloak
-            x-anchor.bottom-start.offset.8="$refs.navitem"
-            @click.outside="open = false"
-            class="absolute
+        {{-- Desktop --}}
+        <div class="hidden {{ config('tetrix.nav.breakpoint') }}:block">
+            <div
+                    x-show="open"
+                    x-cloak
+                    x-anchor.placement.bottom-start.offset.8="$refs.navitem"
+                    @click.outside="open = false"
+
+                    class="absolute
                    w-max
                    bg-tx-general-0 dark:bg-tx-general-900 border
                    rounded border-tx-general-300 dark:border-tx-general-800
                    shadow-md
                    z-10
                    grid {{ $columnClass }}">
-            {{ $dropdown }}
+                {{ $dropdown }}
+            </div>
+        </div>
+        {{-- Mobile --}}
+        <div class="block {{ config('tetrix.nav.breakpoint') }}:hidden">
+            <div
+                    x-show="open"
+                    x-cloak
+                    @click.outside="open = false"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute
+                       left-0 top-full m-2
+                       w-[calc(100%-16px)]
+                       bg-tx-general-0 dark:bg-tx-general-900
+                       border rounded border-tx-general-300 dark:border-tx-general-800
+                       shadow-md
+                       z-10
+                       grid grid-cols-1">
+                {!! $flattenedHtml !!}
+            </div>
         </div>
     @endisset
 </div>

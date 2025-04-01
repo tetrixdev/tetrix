@@ -1,4 +1,5 @@
-<a class="block
+<a  @click="open = false; $nextTick(() => navOpen = false)"
+    class="block
           px-6 py-2
           text-sm
           hover:bg-tx-general-150 dark:hover:bg-tx-general-800
