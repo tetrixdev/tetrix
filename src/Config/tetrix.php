@@ -4,6 +4,4 @@ return [
     'nav' => [
         'breakpoint' => 'sm'
     ]
-]
-
-?>
+];

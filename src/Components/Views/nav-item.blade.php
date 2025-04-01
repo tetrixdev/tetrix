@@ -85,7 +85,12 @@ if(isset($dropdown)) {
                     x-cloak
                     x-anchor.placement.bottom-start.offset.8="$refs.navitem"
                     @click.outside="open = false"
-
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
                     class="absolute
                    w-max
                    bg-tx-general-0 dark:bg-tx-general-900 border
