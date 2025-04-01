@@ -94,6 +94,7 @@ class InstallDependenciesThroughNpm extends Command
             $this->npmInstall();
             $this->updateAppJs();
             $this->updateAppCss();
+            $this->updateViteConfig();
             return 0;
         }
 
@@ -125,6 +126,7 @@ class InstallDependenciesThroughNpm extends Command
         $this->npmInstall();
         $this->updateAppJs();
         $this->updateAppCss();
+        $this->updateViteConfig();
     }
 
     private function updateAppJs()
@@ -142,7 +144,7 @@ class InstallDependenciesThroughNpm extends Command
         // get all import statements
         preg_match('/import .+;/m', $appJsContent, $matches);
 
-       // Check if import statement was found
+        // Check if import statement was found
         if (empty($matches)) {
             $this->error("Error: Could not find any import statements in app.js.");
             return 1;
@@ -233,4 +235,69 @@ class InstallDependenciesThroughNpm extends Command
 
         return $matches[0]; // Return all found versions
     }
+
+    private function updateViteConfig()
+    {
+        $viteConfigPath = base_path('vite.config.js');
+
+        if (!file_exists($viteConfigPath)) {
+            $this->error('vite.config.js not found — skipping Vite refresh path update. Tailwind JIT may not detect vendor Blade files.');
+            return;
+        }
+
+        $viteContent = file_get_contents($viteConfigPath);
+
+        // Paths you want to ensure are in the "refresh" array
+        $pathsToAdd = [
+            "'vendor/tetrix/tetrix/src/Views/*.blade.php'",
+            "'vendor/tetrix/tetrix/src/Views/**/*.blade.php'",
+            "'vendor/tetrix/tetrix/src/Components/*.php'",
+            "'vendor/tetrix/tetrix/src/Components/**/*.php'",
+        ];
+
+        $defaultLaravelPaths = [
+            "'resources/views/**/*.blade.php'",
+            "'app/**/*.php'",
+            "'routes/**/*.php'",
+        ];
+
+        $wasModified = false;
+
+        // 1. Handle refresh: true → convert to array with defaults + tetrix paths
+        if (preg_match('/refresh\s*:\s*true/', $viteContent)) {
+            $newArray = array_merge($defaultLaravelPaths, $pathsToAdd);
+            $newArrayString = "refresh: [\n            " . implode(",\n            ", $newArray) . "\n        ]";
+
+            $viteContent = preg_replace('/refresh\s*:\s*true/', $newArrayString, $viteContent);
+            $wasModified = true;
+        }
+
+        // 2. Handle refresh: [ ... ] → inject tetrix paths if missing
+        if (preg_match('/refresh\s*:\s*\[([^\]]*)\]/', $viteContent, $matches)) {
+            $existingContent = $matches[1];
+
+            foreach ($pathsToAdd as $path) {
+                if (strpos($existingContent, $path) === false) {
+                    $existingContent = trim($existingContent) . ",\n            $path";
+                    $wasModified = true;
+                }
+            }
+
+            // Replace the entire refresh array with the updated one
+            $viteContent = preg_replace(
+                '/refresh\s*:\s*\[[^\]]*\]/',
+                "refresh: [\n$existingContent\n]",
+                $viteContent
+            );
+        }
+
+        if ($wasModified) {
+            file_put_contents($viteConfigPath, $viteContent);
+            $this->info('vite.config.js updated with Tetrix Blade refresh paths.');
+        } else {
+            $this->info('vite.config.js already contains Tetrix Blade refresh paths.');
+        }
+    }
+
+
 }
