@@ -1,4 +1,4 @@
-{{-- Classes used in  --}}
+{{-- Classes used in the nav component (and it's related components). We're adding all possible breakpoint variations here so they're loaded correctly --}}
 <div class="sm:block md:block lg:block xl:block 2xl:block
             sm:flex md:flex lg:flex xl:flex 2xl:flex
             sm:w-auto md:w-auto lg:w-auto xl:w-auto 2xl:w-auto
