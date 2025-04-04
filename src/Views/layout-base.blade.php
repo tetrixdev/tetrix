@@ -50,4 +50,7 @@
     @endif
     </body>
 @show
+    <div id="modals">
+
+    </div>
 </html>
