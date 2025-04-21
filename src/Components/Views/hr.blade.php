@@ -1,0 +1,1 @@
+<hr class="w-full border-t border-tx-general-300 dark:border-tx-general-800">
