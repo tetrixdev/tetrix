@@ -5,7 +5,7 @@
         </div>
     @endif
     <x-tx::hr/>
-    <div class="max-h-[calc(100dvh-300px)] overflow-y-auto p-3">
+    <div class="p-3">
     {{ $slot }}
     </div>
     <x-tx::hr/>
