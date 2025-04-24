@@ -1,6 +1,13 @@
 <div x-data="{
          close() {
-             $el.remove();
+             if ({{ $confirmClosing ? 'true' : 'false' }}) {
+                 // Trigger confirmation modal
+                 $dispatch('open-confirm-modal', {
+                     onConfirm: () => $el.remove()
+                 });
+             } else {
+                 $el.remove();
+             }
          }
      }"
      x-init="
@@ -17,7 +24,7 @@
                 <x-slot:header>
                     <div class="flex">
                         <div class="flex-none">
-                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0 p-0">{{ $title }}</h2>
+                            <x-tx::h2>{{ $title }}</x-tx::h2>
                         </div>
                         <div class="flex-1"></div>
                         <div class="flex-none">
@@ -30,7 +37,7 @@
                 </x-slot:header>
             @endisset
             <div class="max-h-[calc(100dvh-300px)] overflow-y-auto">
-            {{ $slot }}
+                {{ $slot }}
             </div>
             @isset($footer)
                 <x-slot:footer>

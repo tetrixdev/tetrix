@@ -6,12 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Modal extends Component
+class H2 extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $id, public bool $confirmClosing = true)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class Modal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('tx::modal');
+        return view('tx::h2');
     }
 }
