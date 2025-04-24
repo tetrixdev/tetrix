@@ -80,8 +80,8 @@
 
             <x-slot:footer>
                 <div class="flex justify-end space-x-2">
-                    <x-tx::button @click="close()" variant="secondary">Cancel</x-tx::button>
-                    <x-tx::button @click="confirm()" variant="primary">Confirm</x-tx::button>
+                    <x-tx::button-primary @click="confirm()">Confirm</x-tx::button-primary>
+                    <x-tx::button @click="close()">Cancel</x-tx::button>
                 </div>
             </x-slot:footer>
         </x-tx::card>
