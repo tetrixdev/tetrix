@@ -52,6 +52,6 @@
 @show
     <div id="modals">
         {{-- Global confirmation modal --}}
-        @include('tetrix::modal-confirm')
+        @include('tx::modal-confirm')
     </div>
 </html>

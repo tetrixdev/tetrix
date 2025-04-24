@@ -1,1 +1,1 @@
-<h2 class="text-lg font-semibold">{{ $slot }}</h2>
+<h2 class="text-lg font-semibold" {{ $attributes->except(['class']) }}>{{ $slot }}</h2>
