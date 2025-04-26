@@ -27,8 +27,10 @@ export function setupTxModal() {
 
             // add hx-get, hx-target, hx-swap attributes
             element.setAttribute('hx-get', modalUrl);
-            element.setAttribute('hx-target', 'modals');
+            element.setAttribute('hx-target', '#modals');
             element.setAttribute('hx-swap', 'beforeend');
+
+            element.removeAttribute('tx-modal');
         });
     }
     replaceTxModal();
