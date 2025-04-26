@@ -36,8 +36,12 @@
                     </div>
                 </x-slot:header>
             @endisset
-            <div class="max-h-[calc(100dvh-300px)] overflow-y-auto">
-                {{ $slot }}
+            <div class="-m-3">
+                <div class="max-h-[calc(100dvh-300px)] overflow-y-auto">
+                    <div class="p-3">
+                        {{ $slot }}
+                    </div>
+                </div>
             </div>
             @isset($footer)
                 <x-slot:footer>

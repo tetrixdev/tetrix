@@ -74,14 +74,18 @@
                 </div>
             </x-slot:header>
 
-            <div class="max-h-[calc(100dvh-300px)] overflow-y-auto">
-                <div x-html="content"></div>
+            <div class="-m-3">
+                <div class="max-h-[calc(100dvh-300px)] overflow-y-auto">
+                    <div class="p-3">
+                        <div x-html="content"></div>
+                    </div>
+                </div>
             </div>
 
             <x-slot:footer>
                 <div class="flex justify-end space-x-2">
-                    <x-tx::button-primary @click="confirm()">Confirm</x-tx::button-primary>
-                    <x-tx::button @click="close()">Cancel</x-tx::button>
+                    <x-tx::button-primary @click="confirm()"><i class="fa fa-check"></i>Confirm</x-tx::button-primary>
+                    <x-tx::button @click="close()"><i class="fa fa-xmark"></i>Cancel</x-tx::button>
                 </div>
             </x-slot:footer>
         </x-tx::card>

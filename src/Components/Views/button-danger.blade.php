@@ -9,7 +9,7 @@
                     focus:ring-offset-tx-bg focus:ring-tx-txt
                     dark:focus:ring-offset-tx-bg-dark dark:focus:ring-tx-txt-dark
                     disabled:opacity-50
-                    transition-colors duration-200 ease-in-out relative flex ';
+                    transition-colors duration-200 ease-in-out relative flex items-center gap-x-2';
 
     // Color Classes
     $colorClasses = 'text-red-50 bg-red-500 hover:bg-red-600
