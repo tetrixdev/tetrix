@@ -68,7 +68,7 @@
                     <div class="flex-1"></div>
                     <div class="flex-none">
                         <button @click="close()" type="button">
-                            <span class="text-lg"><i class="fa-solid fa-xmark fa-lg"></i></span>
+                            <span class="text-lg"><i class="fa-solid fa-xmark fa-lg cursor-pointer"></i></span>
                         </button>
                     </div>
                 </div>

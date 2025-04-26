@@ -3,13 +3,13 @@
         <div class="p-3">
             {{ $header }}
         </div>
+        <x-tx::hr/>
     @endif
-    <x-tx::hr/>
     <div class="p-3">
     {{ $slot }}
     </div>
-    <x-tx::hr/>
     @isset($footer)
+        <x-tx::hr/>
         <div class="p-3">
             {{ $footer }}
         </div>
