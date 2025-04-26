@@ -14,5 +14,4 @@
             {{ $footer }}
         </div>
     @endif
-    <x-tx::hr/>
 </div>
