@@ -3,12 +3,12 @@
 namespace Tetrix\Middlewares;
 
 use Closure;
-use DOMDocument;
-use DOMXPath;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Masterminds\HTML5;
 use Symfony\Component\HttpFoundation\Response;
 
-class Tetrix
+class TetrixTargets
 {
     /**
      * Handle an incoming request.
@@ -18,6 +18,11 @@ class Tetrix
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
+
+        // If the response is redirect than just pass
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
 
         // Only process if the TX-Targets header is present
         $txTargets = $request->header('TX-Targets');
@@ -35,15 +40,14 @@ class Tetrix
             trigger_error('TX-Targets header present but response is not HTML', E_USER_WARNING);
         }
 
-        $DOMDocument = new DomDocument('1.0', 'UTF-8');
-        // We need to suppress errors because DomDocument gives errors on html5 tags
-        // Possibly want to switch to Dom\HTMLDocument in the future, but it's PHP8.4+
-        $DOMDocument->loadHTML($response->getContent(), LIBXML_NOERROR);
-        $xpath = new DOMXPath($DOMDocument);
+        $html = $response->getContent();
+        $html5 = new HTML5();
+        $dom = $html5->loadHTML($html);
 
+        $xpath = new \DOMXPath($dom);
         $selectors = explode(',', $txTargets);
 
-        if(empty($selectors)) {
+        if (empty($selectors)) {
             throw new \RuntimeException('No selectors found in TX-Targets header');
         }
 
@@ -63,7 +67,9 @@ class Tetrix
 
             $element = $elements->item(0);
             $element->setAttribute('hx-swap-oob', 'true');
-            $collectedHtml[] = $DOMDocument->saveHTML($element);
+
+            // Use HTML5 serializer to get exact HTML with attributes intact
+            $collectedHtml[] = $html5->saveHTML($element);
         }
 
         $newResponseHTML = implode('', $collectedHtml);

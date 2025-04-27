@@ -4,6 +4,7 @@ namespace Tetrix;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Redirect;
 
 class TetrixServiceProvider extends ServiceProvider
 {
@@ -44,7 +45,22 @@ class TetrixServiceProvider extends ServiceProvider
             __DIR__.'/Config/tetrix.php' => config_path('tetrix.php'),
         ], 'tetrix-config');
 
+        // Override the default redirect back method to support modal redirects
+        Redirect::macro('back', function ($status = 302, $headers = [], $fallback = false) {
+            /** @var \Illuminate\Routing\Redirector $this */
+            $request = request();
+
+            if ($modalUrl = $request->header('TX-Modal-Referer')) {
+                return $this->to($modalUrl, 303, $headers);
+            }
+
+            $referer = $request->headers->get('referer');
+
+            return $this->to($referer ?: ($fallback ?: '/'), $status, $headers);
+        });
+
         // Register middleware
-        $this->app['router']->pushMiddlewareToGroup('web', \Tetrix\Middlewares\Tetrix::class);
+        $this->app['router']->pushMiddlewareToGroup('web', \Tetrix\Middlewares\TetrixTargets::class);
+        $this->app['router']->pushMiddlewareToGroup('web', \Tetrix\Middlewares\TetrixRedirect::class);
     }
 }
