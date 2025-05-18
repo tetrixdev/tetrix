@@ -50,7 +50,7 @@ class TetrixServiceProvider extends ServiceProvider
             /** @var \Illuminate\Routing\Redirector $this */
             $request = request();
 
-            if ($modalUrl = $request->header('TX-Modal-Referer')) {
+            if ($modalUrl = $request->header('TX-Referer')) {
                 return $this->to($modalUrl, 303, $headers);
             }
 

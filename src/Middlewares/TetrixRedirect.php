@@ -32,7 +32,7 @@ class TetrixRedirect
                     // TODO: check if this is needed with the macro for redirect->back
                     // If we have errors, we want to redirect back to the modal.
                     // We can override the redirect code + URL.
-                    $modalUrl = $request->header('TX-Modal-Referer');
+                    $modalUrl = $request->header('TX-Referer');
 
                     if ($modalUrl) {
                         // Change the redirect URL to the modal URL

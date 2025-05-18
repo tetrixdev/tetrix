@@ -6,8 +6,8 @@ export function setupTxTargets() {
             if (headersAttr) {
                 try {
                     const headers = JSON.parse(headersAttr);
-                    if (headers['TX-Modal-Referer']) {
-                        return headers['TX-Modal-Referer'];
+                    if (headers['TX-Referer']) {
+                        return headers['TX-Referer'];
                     }
                 } catch (e) {
                     console.warn('Invalid JSON in hx-headers of ancestor:', e);
