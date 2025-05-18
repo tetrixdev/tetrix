@@ -58,13 +58,10 @@ export function setupTxDependsOn() {
     function findModalReferer(el) {
         let current = el.parentElement;
         while (current) {
-            console.log(current);
             const headersAttr = current.getAttribute('hx-headers');
             if (headersAttr) {
-                console.log(headersAttr);
                 try {
                     const headers = JSON.parse(headersAttr);
-                    console.log(headers);
                     if (headers['TX-Referer']) {
                         return headers['TX-Referer'];
                     }

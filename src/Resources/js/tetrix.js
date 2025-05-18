@@ -9,4 +9,3 @@ initHtmx();
 setupTxTargets();
 setupTxModal();
 setupTxDependsOn();
-setupTxDependsOn();
