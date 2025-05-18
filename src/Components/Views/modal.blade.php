@@ -14,7 +14,7 @@
         // Directly access or initialize the store and add the modal
         $store.modals = $store.modals || {};
         $store.modals['{{ $id  }}'] = $data;"
-     hx-headers="{{ json_encode(["ZP-Current-Modal-Url" => url()->current()]) }}"
+     hx-headers="{{ json_encode(["TX-Referer" => url()->current()]) }}"
      id="{{ $id }}"
      class="fixed inset-0 z-60 flex items-center justify-center m-6">
     <div class="absolute inset-0 bg-black opacity-75 -m-6"></div>
