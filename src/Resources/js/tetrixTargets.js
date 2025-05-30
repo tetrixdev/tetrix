@@ -1,23 +1,6 @@
-export function setupTxTargets() {
-    function findModalReferer(element) {
-        let current = element.parentElement;
-        while (current) {
-            const headersAttr = current.getAttribute('hx-headers');
-            if (headersAttr) {
-                try {
-                    const headers = JSON.parse(headersAttr);
-                    if (headers['TX-Referer']) {
-                        return headers['TX-Referer'];
-                    }
-                } catch (e) {
-                    console.warn('Invalid JSON in hx-headers of ancestor:', e);
-                }
-            }
-            current = current.parentElement;
-        }
-        return '';
-    }
+import { findTxRefererInAncestors } from './tetrixUtilityFunctions.js';
 
+export function setupTxTargets() {
     // Check all HTML elements with attribute tx-targets="test1,test2,test3" and replace this with hx-header="{"TX-TARGETS": "test1,test2,test3"}" attribute, if hx-headers already exists, append the tx-targets to the existing value
     function replaceTxTargets() {
         document.querySelectorAll('[tx-targets]').forEach((element) => {
@@ -35,8 +18,12 @@ export function setupTxTargets() {
 
             // Adding hx-get attribute if hx-get,hx-post,hx-put,hx-delete do not exist, no value = current page
             if (!element.hasAttribute('hx-get') && !element.hasAttribute('hx-post') && !element.hasAttribute('hx-put') && !element.hasAttribute('hx-delete')) {
-                const refererUrl = findModalReferer(element);
-                element.setAttribute('hx-get', refererUrl);
+                const refererUrl = findTxRefererInAncestors(element);
+                if(refererUrl) {
+                    element.setAttribute('hx-get', refererUrl);
+                } else {
+                    element.setAttribute('hx-get', window.location.href);
+                }
             }
 
             element.removeAttribute('tx-targets');

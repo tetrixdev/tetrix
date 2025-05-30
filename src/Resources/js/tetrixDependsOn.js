@@ -1,10 +1,17 @@
+import { findTxRefererInAncestors } from './tetrixUtilityFunctions.js';
+import { TxPrecognitionRequest } from './tetrixPrecognition.js';
+
 export function setupTxDependsOn() {
+    // We need to track which input IDs are affected by all cycles of dependency updates.
+    // This is used for the final precognition request(s).
+    const affectedInputIds = new Set();
+
     /**
      * Finds all elements that depend on any of the given input IDs.
      */
     function findDependents(inputIds) {
-        const dependents = [];
         const inputIdSet = new Set(inputIds);
+        const dependents = [];
 
         document.querySelectorAll('[tx-depends-on]').forEach((el) => {
             const deps = el.getAttribute('tx-depends-on')
@@ -25,57 +32,48 @@ export function setupTxDependsOn() {
     }
 
     /**
-     * Collects valid input elements for the given input IDs.
+     * Collects input-like elements by ID and validates them.
      */
     function collectInputs(inputIds) {
         const inputs = [];
+
         inputIds.forEach(id => {
             const input = document.getElementById(id);
+
             if (!input) {
                 console.error(`[tx-depends-on] Input with id '${id}' not found in DOM.`);
                 return;
             }
+
             if (!input.name) {
                 console.error(`[tx-depends-on] Input with id '${id}' has no 'name' attribute and will be ignored.`);
                 return;
             }
+
             if (!document.contains(input)) {
                 console.error(`[tx-depends-on] Input with id '${id}' is not attached to the DOM.`);
                 return;
             }
+
             inputs.push(input);
         });
+
         return inputs;
     }
 
     /**
-     * Resolves the hx-get URL, using the modal referer fallback if needed.
+     * Extracts hx-get or falls back to modal-level referer header.
      */
     function extractHxGet(el) {
-        return el.getAttribute('hx-get') || findModalReferer(el);
-    }
+        // Technically we're not expecting hx-get to be present on the element itself.
+        // Leave this here for future-proofing. Might remove it or might expand it to other hx-* attributes.
 
-    function findModalReferer(el) {
-        let current = el.parentElement;
-        while (current) {
-            const headersAttr = current.getAttribute('hx-headers');
-            if (headersAttr) {
-                try {
-                    const headers = JSON.parse(headersAttr);
-                    if (headers['TX-Referer']) {
-                        return headers['TX-Referer'];
-                    }
-                } catch (e) {
-                    console.error('Invalid JSON in hx-headers of ancestor:', e);
-                }
-            }
-            current = current.parentElement;
-        }
-        return '';
+        // TODO: Make this work outside of MODAL? maybe abstract the logic from tetrixTargets and here
+        return el.getAttribute('hx-get') || findTxRefererInAncestors(el);
     }
 
     /**
-     * Extracts all input-like element IDs inside a given DOM element.
+     * Extracts all input-like element IDs inside a container.
      */
     function extractInputIdsFromElement(el) {
         const inputs = el.querySelectorAll('input, select, textarea');
@@ -85,11 +83,19 @@ export function setupTxDependsOn() {
     }
 
     /**
-     * Core function: evaluates dependents of inputIds and processes in batch.
+     * Runs a full dependency update cycle and tracks what changed.
      */
     function runDependencyCycle(inputIds) {
+        // Track input IDs globally for post-update precognition
+        inputIds.forEach(id => affectedInputIds.add(id));
+
         const dependents = findDependents(inputIds);
-        if (dependents.length === 0) return;
+
+        if (dependents.length === 0) {
+            TxPrecognitionRequest(affectedInputIds);
+            affectedInputIds.clear();
+            return;
+        }
 
         const allTargetIds = [];
         const allInputIds = new Set();
@@ -110,14 +116,55 @@ export function setupTxDependsOn() {
         }
 
         const finalHxGet = Array.from(hxGets)[0] || '';
+
+        // --------------------------------------
+        // STEP 1: Collect input elements based on dependency declarations
+        // --------------------------------------
         const inputElements = collectInputs(Array.from(allInputIds));
 
+        // --------------------------------------
+        // STEP 2: Collect input elements from within targets (to ensure we include their current state)
+        //         Also include the target itself if it is an input/select/textarea
+        // --------------------------------------
+        allTargetIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            // ✅ If the target itself is an input-like element, include it
+            if (
+                (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') &&
+                el.name &&
+                document.contains(el)
+            ) {
+                inputElements.push(el);
+            }
+
+            // ✅ Also include any input-like children of the element
+            const embeddedInputs = el.querySelectorAll('input, select, textarea');
+            embeddedInputs.forEach(input => {
+                if (input.name && document.contains(input)) {
+                    inputElements.push(input);
+                }
+            });
+        });
+
+        // --------------------------------------
+        // STEP 3: Extract name/value pairs from all collected inputs (deduplicated by name)
+        // --------------------------------------
         const values = {};
+        const seenNames = new Set();
+
         inputElements.forEach(input => {
+            if (!input.name || seenNames.has(input.name)) return;
             if ((input.type === 'checkbox' || input.type === 'radio') && !input.checked) return;
+
+            seenNames.add(input.name);
             values[input.name] = input.value;
         });
 
+        // --------------------------------------
+        // STEP 4: Fire HTMX request to update dependent elements
+        // --------------------------------------
         const targetSelector = allTargetIds.map(id => `#${id}`).join(', ');
         const headers = { 'TX-Targets': allTargetIds.join(',') };
 
@@ -128,7 +175,10 @@ export function setupTxDependsOn() {
             swap: 'outerHTML',
         });
 
-        // After HTMX completes the DOM update, re-evaluate based on new inputs
+        // --------------------------------------
+        // STEP 5: After HTMX finishes updating the DOM, see if the newly updated elements contain more inputs
+        //         If so, re-run this logic. Otherwise, fire final precognition.
+        // --------------------------------------
         document.addEventListener('htmx:afterSettle', function handleSettle() {
             document.removeEventListener('htmx:afterSettle', handleSettle);
 
@@ -136,17 +186,25 @@ export function setupTxDependsOn() {
             allTargetIds.forEach(targetId => {
                 const el = document.getElementById(targetId);
                 if (el) {
-                    extractInputIdsFromElement(el).forEach(id => nextInputIds.add(id));
+                    extractInputIdsFromElement(el).forEach(id => {
+                        nextInputIds.add(id);
+                        affectedInputIds.add(id);
+                    });
                 }
             });
 
             if (nextInputIds.size > 0) {
                 runDependencyCycle(Array.from(nextInputIds));
+            } else {
+                TxPrecognitionRequest(affectedInputIds);
+                affectedInputIds.clear();
             }
         });
     }
 
-    // Trigger bubbling logic on input change
+    /**
+     * Initial entry point: listens globally for input changes.
+     */
     document.addEventListener('change', (event) => {
         const inputId = event?.target?.id;
         if (!inputId) return;

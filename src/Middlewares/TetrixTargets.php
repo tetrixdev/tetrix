@@ -5,6 +5,7 @@ namespace Tetrix\Middlewares;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Masterminds\HTML5;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,6 +30,10 @@ class TetrixTargets
         if (!$txTargets) {
             return $response;
         }
+
+        Log::debug('TetrixTargets');
+        Log::debug('TetrixTargets, old values: '.json_encode(old()));
+        Log::debug('TetrixTargets, input values: '.json_encode($request->input()));
 
         // If the TX-Targets header is present, we need to ensure the Vary header is set to TX-Targets
         // We're adding it this way so the header is present regardless of whether we encounter an error or not
